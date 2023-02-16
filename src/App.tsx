@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { v1 } from 'uuid';
 import './App.css';
 import { TaskType, TodoList } from './components/Todolist';
 
@@ -24,22 +25,28 @@ export function App() {
   // ]
 
   let [tasks, setTasks] = useState<Array<TaskType>>([
-    { id: 1, title: "BMW", madeCountry: "Germany", isDone: true },
-    { id: 2, title: "MB", madeCountry: "Germany", isDone: true },
-    { id: 3, title: "Toyota", madeCountry: "Japan", isDone: false },
-    { id: 4, title: "Audi", madeCountry: "Germany", isDone: true },
-    { id: 5, title: "MMC", madeCountry: "Japan", isDone: false },
-    { id: 6, title: "Tesla", madeCountry: "USA", isDone: false },
-    { id: 7, title: "Peuget", madeCountry: "France", isDone: false },
-    { id: 8, title: "Opel", madeCountry: "Germany", isDone: true },
+    { id: v1(), title: "BMW", madeCountry: "Germany", isDone: true },
+    { id: v1(), title: "MB", madeCountry: "Germany", isDone: true },
+    { id: v1(), title: "Toyota", madeCountry: "Japan", isDone: false },
+    { id: v1(), title: "Audi", madeCountry: "Germany", isDone: true },
+    { id: v1(), title: "MMC", madeCountry: "Japan", isDone: false },
+    { id: v1(), title: "Tesla", madeCountry: "USA", isDone: false },
+    { id: v1(), title: "Peuget", madeCountry: "France", isDone: false },
+    { id: v1(), title: "Opel", madeCountry: "Germany", isDone: true },
   ]
   );
 
   let [filter, setFilter] = useState<FilterValuesType>("all");
 
-  function removeTask(id: number) {
+  function removeTask(id: string) {
     let filteredTasks = tasks.filter(t => t.id !== id)
     setTasks(filteredTasks)
+  }
+
+  function addTask(title: string) {
+    let newTask = { id: v1(), title: title, isDone: false }
+    let newTasks = [newTask, ...tasks]
+    setTasks(newTasks)
   }
 
   function changeFilter(value: FilterValuesType) {
@@ -65,6 +72,7 @@ export function App() {
         tasks={tasksForTodolist}
         removeTask={removeTask}
         changeFilter={changeFilter}
+        addTask={addTask}
       />
     </div>
   );
